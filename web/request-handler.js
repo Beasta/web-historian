@@ -54,26 +54,36 @@ exports.handleRequest = function (req, res) {
     var data ;
     statusCode = 200;      
 
-    if(url === '/'){
+    if(url === '/'){ // empty call to the website
       data = localStorage.getItem('index.html');
-    }else{
-      console.log('GET request with an empty URL');
-     // data = ;
+    }else{ //passing a url with detail for a site to be fetched or served
+      var potentialSite = urlModule.parse(url).pathname.slice(1);
+      var regex = new RegExp(potentialSite,'i');
+
+      //check to see if the site is already in database
+      if(regex.test(localStorage.getItem('sites.txt'))){ 
+        console.log('found the site in sites.txt')
+        //in the future, we'll load the html here
+      } else { //otherwise, serve loading.html and add site to sites.txt
+        var retrieved = localStorage.getItem('sites.txt');
+        
+        retrieved = retrieved +"\n" + potentialSite;
+        localStorage.setItem('sites.txt',retrieved);
+        data = localStorage.getItem('loading.html');
+      }
     }
-
-    // console.log(urlModule.parse(url))
-
-    res.writeHead(statusCode, headers);
-    res.end(data);
 
   }else if(method === "POST"){ 
     statusCode = 201;
+    
   }else if(method === "DELETE"){
     statusCode = 202;
   }else{
     statusCode = 404;
   }
   // }
+  res.writeHead(statusCode, headers);
+  res.end(data);
   //on get
 
     //localstorage write-->sites.txt
