@@ -2,11 +2,29 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="styles.css" />
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
   Enter a URL here:
   <form method="POST">
-    <input type="input" name="url"></input>
+    <input type="input" id="url"></input>
   </form>
+  <script>
+    var app = {
+      // server: 'http://127.0.0.1:8080',
+
+      init:function(){
+            app.$input = $('input');
+            app.$input.on('submit', function(){console.log('input')});
+              // $(document).keypress(function(e) {
+              //   if(e.which == 13) {
+              //     console.log('pressed enter');
+              //   }
+              // });
+      }
+    };
+    app.init();
+  </script>
+
 </body>
 </html>

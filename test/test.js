@@ -4,14 +4,18 @@ var fs = require('fs');
 var archive = require("../helpers/archive-helpers");
 var path = require('path');
 var supertest = require('supertest');
-var initialize = require("../web/initialize.js");
+var initialize = require("../web/initialize.js"); //loads initialize.js
 
-initialize(path.join(__dirname, '/testdata'));
+initialize(path.join(__dirname, '/testdata')); //call initialize to set sites and sites.txt in /testdata
 
-archive.initialize({
+// console.log("archive.paths");
+// console.log(archive.paths);
+archive.initialize({  //
   archivedSites: path.join(__dirname, '/testdata/sites'),
   list: path.join(__dirname, "/testdata/sites.txt")
 });
+// console.log("archive.paths");
+// console.log(archive.paths);
 
 var request = supertest.agent(server);
 
@@ -19,6 +23,7 @@ describe("server", function() {
   describe("GET /", function () {
     it("should return the content of index.html", function (done) {
       // just assume that if it contains an <input> tag its index.html
+      // console.log(request.get('/'));
       request
         .get('/')
         .expect(200, /<input/, done);
